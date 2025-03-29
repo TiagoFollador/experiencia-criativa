@@ -1,4 +1,7 @@
 
 const baseUrl = 'http://localhost:8800';
+const baseHeader =  {
+    "Accept": "application/json",
+}
 
-export {baseUrl}
+export {baseUrl, baseHeader}
