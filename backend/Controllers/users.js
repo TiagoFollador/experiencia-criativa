@@ -8,12 +8,12 @@ export const getUsers = (_, res) => {
   db.query(q, (err, data) => {
     if (err) return res.status(500).json({ 
       error: err,
-      teste: err.message,
-      db: db.config
     });
     else {
       if (data.length > 0) { // dados do banco
-        res.status(200).json(data);
+        res.status(200).json({
+          users:data
+        });
       } else { // simulando caso o banco esteja vazio
         res.status(201).json(users);
       }
@@ -21,23 +21,29 @@ export const getUsers = (_, res) => {
   });
 };
 
-export const storeUser = (header, res) => {
-  const q = "SELECT * FROM usuarios;";
+export const storeUser = (req, res) => {
+  const { nome, email, dataNascimento } = req.body;
 
+  if (!nome || !email || !dataNascimento) {
+    return res.status(400).json({ error: 'Missing required fields.',
+      teste: req.body,
+      recived: [nome, email, dataNascimento]
+     });
+  }
 
-  db.query(q, (err, data) => {
+  const q = "INSERT INTO usuarios (nome, email, data_nascimento) VALUES (?, ?, ?)";
+  db.query(q, [nome, email, dataNascimento], (err, data) => {
     if (err) return res.status(500).json({ 
       error: err,
       teste: err.message,
-      db: db.config
+
     });
-    
+
     else {
-      if (data.length > 0) { // dados do banco
-        res.status(200).json(data);
-      } else { // simulando caso o banco esteja vazio
-        res.status(201).json(users);
-      }
+      res.status(201).json({
+        message: "User has been created successfully!",
+        userId: data.insertId
+      });
     }
   });
 };
