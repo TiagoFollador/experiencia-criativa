@@ -20,7 +20,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "TAILWIND_MODE=watch tailwindcss -i ./src/input.css -o ./src/styles.css --watch & react-scripts start",
+    "start": "react-scripts start",
+    "dev": "npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -44,4 +45,3 @@
     ]
   }
 }
-

@@ -8,6 +8,9 @@ node index.js
 cd ../frontend
 npm run dev
 
+# Versão do node
+- Node utilizado: 20.15.1
+
 # Repositorio das aulas de Experiencia Criativa
 
 - Entrega 03 - Listar usuários & comunicação com API+BANCO: branch `aula-03`

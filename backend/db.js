@@ -17,8 +17,3 @@ export const db = mysql2.createConnection({
     password: "",
     database: "users",
 });
-
-/**
- * 
- * 
- */
