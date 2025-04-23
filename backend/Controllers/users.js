@@ -21,6 +21,34 @@ export const getUsers = (_, res) => {
   });
 };
 
+export const getUserById = (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ error: 'Missing required fields.',
+      teste: req.body,
+      recived: [id]
+     });
+  }
+
+  const q = "SELECT * FROM usuarios WHERE id = ?;";
+  db.query(q,[id], (err, data) => {
+    if (err) return res.status(500).json({ 
+      error: err,
+    });
+    else {
+      if (data.length > 0) { // dados do banco
+        const { nome, email, data_nascimento, apelido } = data[0];
+        res.status(200).json({
+          user: data
+        });
+      } else { // simulando caso o banco esteja vazio
+        res.status(201).json(users);
+      }
+    }
+  });
+};
+
 export const storeUser = (req, res) => {
   const { nome, email, data_nascimento, apelido } = req.body;
 

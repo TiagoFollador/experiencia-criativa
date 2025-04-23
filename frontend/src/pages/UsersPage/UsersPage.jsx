@@ -2,13 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { baseUrl } from "../../url";
 import "./style.css";
-import { ModalCreateUser } from "../../componets/modalCreateUser";
 import { ListUsers } from "../../componets/list-users/ListUsers";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const Users = () => {
+export const UsersPage = () => {
   const [usersData, setUsersData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,4 +56,3 @@ const Users = () => {
   );
 };
 
-export default Users;
