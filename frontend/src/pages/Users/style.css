@@ -45,3 +45,11 @@
   color: #333333; 
   line-height: 1.6; 
 }
+
+.scroll-area {
+  margin: 1.25rem; /* m-5 */
+  max-height: 70vh; /* max-h-screen */
+  overflow-y: auto; /* overflow-y-auto */
+  background-color: #f4f4f4; 
+  border-radius: 12px; 
+}

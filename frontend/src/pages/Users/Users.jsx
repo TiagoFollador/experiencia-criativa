@@ -6,12 +6,11 @@ import { ModalCreateUser } from "../../componets/modalCreateUser";
 import { ListUsers } from "../../componets/list-users/ListUsers";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Users = () => {
   const [usersData, setUsersData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [modal, setModal] = useState(false);
-  const handleModal = () => setModal((prev) => !prev);
 
   const header = {
     Accept: "application/json",
@@ -28,6 +27,11 @@ const Users = () => {
       })
       .catch((error) => {
         console.log("Erro");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Algo deu errado, verifique sua conexão!",
+        })
       });
   };
 
@@ -45,9 +49,10 @@ const Users = () => {
         </Button>
         </Link>
       </div>
-      <ListUsers usersData={usersData} />
-      {/* <button onClick={() => handleModal()}>Criar Usuário</button>
-            {modal && <ModalCreateUser/>} */}
+      <div className="scroll-area">
+
+        <ListUsers usersData={usersData} />
+      </div>
     </div>
   );
 };
