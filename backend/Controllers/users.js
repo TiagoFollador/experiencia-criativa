@@ -22,17 +22,17 @@ export const getUsers = (_, res) => {
 };
 
 export const storeUser = (req, res) => {
-  const { nome, email, dataNascimento } = req.body;
+  const { nome, email, dataNascimento, apelido } = req.body;
 
-  if (!nome || !email || !dataNascimento) {
+  if (!nome || !email || !dataNascimento || !apelido) {
     return res.status(400).json({ error: 'Missing required fields.',
       teste: req.body,
-      recived: [nome, email, dataNascimento]
+      recived: [nome, email, dataNascimento, apelido]
      });
   }
 
-  const q = "INSERT INTO usuarios (nome, email, data_nascimento) VALUES (?, ?, ?)";
-  db.query(q, [nome, email, dataNascimento], (err, data) => {
+  const q = "INSERT INTO usuarios (nome, email, data_nascimento, apelido) VALUES (?, ?, ?, ?)";
+  db.query(q, [nome, email, dataNascimento, apelido], (err, data) => {
     if (err) return res.status(500).json({ 
       error: err,
       teste: err.message,
@@ -48,40 +48,57 @@ export const storeUser = (req, res) => {
   });
 };
 
-export const editUser = (_, res) => {
-  const q = "SELECT * FROM usuarios;";
+export const editUser = (req, res) => {
+  const { user_id } = req.params;
+  const { nome, email, dataNascimento, apelido } = req.body;
 
-  db.query(q, (err, data) => {
+    if (!user_id || !nome || !email || !dataNascimento || !apelido) {
+    return res.status(400).json({ error: 'Missing required fields.',
+      teste: req.body,
+      recived: [user_id]
+     });
+  }
+
+  const q = "UPDATE usuarios SET nome = ?, email = ?, data_nascimento = ?, apelido = ? WHERE id = ?";
+  db.query(q, [nome, email, dataNascimento, apelido], (err, data) => {
     if (err) return res.status(500).json({ 
       error: err,
       teste: err.message,
-      db: db.config
+
     });
+
     else {
-      if (data.length > 0) { // dados do banco
-        res.status(200).json(data);
-      } else { // simulando caso o banco esteja vazio
-        res.status(201).json(users);
-      }
+      res.status(201).json({
+        message: "User has been created successfully!",
+        userId: data.insertId
+      });
     }
   });
 };
 
-export const deleteUser = (_, res) => {
-  const q = "SELECT * FROM usuarios;";
+export const deleteUser = (req, res) => {
+  const { id } = req.params;
 
-  db.query(q, (err, data) => {
+  if (!id) {
+    return res.status(400).json({ error: 'Missing required fields.',
+      teste: req.body,
+      recived: [id]
+     });
+  }
+
+  const q = "DELETE FROM usuarios WHERE id = ?";
+  db.query(q, [id], (err, data) => {
     if (err) return res.status(500).json({ 
       error: err,
       teste: err.message,
-      db: db.config
+
     });
+
     else {
-      if (data.length > 0) { // dados do banco
-        res.status(200).json(data);
-      } else { // simulando caso o banco esteja vazio
-        res.status(201).json(users);
-      }
+      res.status(200).json({
+        message: "User has been deleted successfully!",
+        userId: id
+      });
     }
   });
 };
