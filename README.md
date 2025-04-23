@@ -1,12 +1,12 @@
 # Instalar dependencias
-npm i ./frontend
-npm i ./backend
+- npm i ./frontend
+- npm i ./backend
 
 # Iniciar projeto
-cd backend
-node index.js
-cd ../frontend
-npm run dev
+- cd backend
+- node index.js
+- cd ../frontend
+- npm run dev
 
 # Versão do node
 - Node utilizado: 20.15.1
