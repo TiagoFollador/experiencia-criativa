@@ -22,17 +22,17 @@ export const getUsers = (_, res) => {
 };
 
 export const storeUser = (req, res) => {
-  const { nome, email, dataNascimento, apelido } = req.body;
+  const { nome, email, data_nascimento, apelido } = req.body;
 
-  if (!nome || !email || !dataNascimento || !apelido) {
+  if (!nome || !email || !data_nascimento || !apelido) {
     return res.status(400).json({ error: 'Missing required fields.',
       teste: req.body,
-      recived: [nome, email, dataNascimento, apelido]
+      recived: [nome, email, data_nascimento, apelido]
      });
   }
 
   const q = "INSERT INTO usuarios (nome, email, data_nascimento, apelido) VALUES (?, ?, ?, ?)";
-  db.query(q, [nome, email, dataNascimento, apelido], (err, data) => {
+  db.query(q, [nome, email, data_nascimento, apelido], (err, data) => {
     if (err) return res.status(500).json({ 
       error: err,
       teste: err.message,
@@ -50,9 +50,9 @@ export const storeUser = (req, res) => {
 
 export const editUser = (req, res) => {
   const { user_id } = req.params;
-  const { nome, email, dataNascimento, apelido } = req.body;
+  const { nome, email, data_nascimento, apelido } = req.body;
 
-    if (!user_id || !nome || !email || !dataNascimento || !apelido) {
+    if (!user_id || !nome || !email || !data_nascimento || !apelido) {
     return res.status(400).json({ error: 'Missing required fields.',
       teste: req.body,
       recived: [user_id]
@@ -60,7 +60,7 @@ export const editUser = (req, res) => {
   }
 
   const q = "UPDATE usuarios SET nome = ?, email = ?, data_nascimento = ?, apelido = ? WHERE id = ?";
-  db.query(q, [nome, email, dataNascimento, apelido], (err, data) => {
+  db.query(q, [nome, email, data_nascimento, apelido], (err, data) => {
     if (err) return res.status(500).json({ 
       error: err,
       teste: err.message,

@@ -1,0 +1,26 @@
+.card-container {
+    background-color: #f4f4f4;
+    width: 66%;
+    border-radius: 12px;
+}
+
+.base-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.card__input__container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.card__input-group__container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.card__input-subgroup__container {
+    width: 40%;
+    margin-bottom: 15px;
+}
