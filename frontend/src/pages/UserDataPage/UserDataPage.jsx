@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
@@ -40,13 +40,19 @@ export const UserDataPage = () => {
   return (
     <>
       <div>
-        <h1>Pagina do Usuário</h1>
+        <Tooltip title={`id: ${id}`} style={{display: "flex", justifyContent: "center"}}>
+
+        <h1>Pagina do Usuário - {id}</h1>
+        </Tooltip>
         <Link to="/">
           <Button variant="outlined">{"Voltar"}</Button>
         </Link>
       </div>
       <FormProvider>
+        <div className="userDataPage__content__container">
+
         <FormEditUser userData={userData} />
+        </div>
       </FormProvider>
     </>
   );

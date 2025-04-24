@@ -1,4 +1,5 @@
 import { db } from "../db.js";
+import { formatSqlDate } from "../utils/date-formatter.js";
 import { users } from "./fake-data.js";
 
 
@@ -38,9 +39,16 @@ export const getUserById = (req, res) => {
     });
     else {
       if (data.length > 0) { // dados do banco
-        const { nome, email, data_nascimento, apelido } = data[0];
+        
+        const user = {
+          id: data[0].id,
+          nome: data[0].nome,
+          email: data[0].email,
+          apelido: data[0].apelido,
+          data_nascimento: formatSqlDate(data[0].data_nascimento)
+        }
         res.status(200).json({
-          user: data
+          user: user
         });
       } else { // simulando caso o banco esteja vazio
         res.status(201).json(users);
@@ -77,18 +85,18 @@ export const storeUser = (req, res) => {
 };
 
 export const editUser = (req, res) => {
-  const { user_id } = req.params;
+  const { id } = req.params;
   const { nome, email, data_nascimento, apelido } = req.body;
 
-    if (!user_id || !nome || !email || !data_nascimento || !apelido) {
+    if (!id || !nome || !email || !data_nascimento || !apelido) {
     return res.status(400).json({ error: 'Missing required fields.',
       teste: req.body,
-      recived: [user_id]
+      recived: [id]
      });
   }
 
   const q = "UPDATE usuarios SET nome = ?, email = ?, data_nascimento = ?, apelido = ? WHERE id = ?";
-  db.query(q, [nome, email, data_nascimento, apelido], (err, data) => {
+  db.query(q, [nome, email, data_nascimento, apelido, id], (err, data) => {
     if (err) return res.status(500).json({ 
       error: err,
       teste: err.message,

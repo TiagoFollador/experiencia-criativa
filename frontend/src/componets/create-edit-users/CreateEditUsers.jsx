@@ -1,7 +1,7 @@
 
 import { FormLabel, TextField } from "@mui/material"
 import "./style.css"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { FormContext } from "./create-form-context"
 
 
@@ -13,6 +13,8 @@ export const CreateEditUsers = ({ data = {} }) => {
         watch,
         formState: { errors },
       } = useContext(FormContext);
+
+      
 
       const handleDateChange = (e) => {
         let value = e.target.value.replace(/\D/g, ""); // Remove caracteres não numéricos
@@ -27,6 +29,15 @@ export const CreateEditUsers = ({ data = {} }) => {
         
         setValue("data_nascimento", value)// Atualiza o valor no React Hook Form
       };
+
+      useEffect(() => {
+        if (Object.keys(data).length > 0) {
+          setValue("nome", data.nome || '');
+          setValue("apelido", data.apelido || '');
+          setValue("email", data.email || '');
+          setValue("data_nascimento", data.data_nascimento || '');
+        }
+      }, [data]);
 
     return (
         <div className="card__input-group__container">

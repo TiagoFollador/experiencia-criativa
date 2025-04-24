@@ -15,8 +15,8 @@ export const ListUsers = ({ usersData, isEditing = false, ...props }) => {
     <div className="user-container" {...props}>
       {usersData.length > 0
         ? usersData.map((user) => (
-            <Link to={`/user/${user.id}`} className="no-styles-a">
-              <div className="user-card" key={user.id}>
+            <Link key={user.id} to={`/user/${user.id}`} className="no-styles-a">
+              <div className="user-card">
                 <p className="user-info">Nome: {user.nome}</p>
                 <p className="user-info">Apelido: {user.apelido}</p>
                 <p className="user-info">E-mail: {user.email}</p>

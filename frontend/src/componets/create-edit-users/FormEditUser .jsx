@@ -6,8 +6,10 @@ import { useContext } from "react";
 import { FormContext } from "./create-form-context";
 import axios from "axios";
 import { baseUrl } from "../../url";
+import { useNavigate } from "react-router-dom";
 
 export const FormEditUser = ({ userData }) => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -30,6 +32,8 @@ export const FormEditUser = ({ userData }) => {
   };
 
   const onSubmit = async (data) => {
+    console.log(data);
+
     if (!data.nome || !data.email || !data.data_nascimento || !data.apelido) {
       Swal.fire({
         icon: "error",
@@ -65,7 +69,7 @@ export const FormEditUser = ({ userData }) => {
     };
 
     await axios
-      .put(`${baseUrl}/${data.id}`, body, header)
+      .put(`${baseUrl}/${userData.id}`, body)
       .then((data) => {
         if (data.status === 201) {
           Swal.fire({
@@ -91,6 +95,52 @@ export const FormEditUser = ({ userData }) => {
       });
   };
 
+  const handleDelete = async () => {
+    Swal.fire({
+      title: "Tem certeza?",
+      text: `Você deseja apagar o usuario de id ${userData.id}?`,
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonText: "Não, cancelar!",
+      confirmButtonText: "Sim, deletar!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteUser();
+      }
+    });
+  };
+
+  const deleteUser = async () => {
+    await axios
+      .delete(`${baseUrl}/${userData.id}`, header)
+      .then((data) => {
+        
+        if (data.status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Parabens!",
+            text: "Pessoa deletada com sucesso!",
+          }).then(() => {
+            navigate("/");
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Erro interno",
+            text: "Algo deu errado ao deletar o usuario!",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("Erro");
+        Swal.fire({
+          icon: "error",
+          title: "Erro interno",
+          text: "Algo deu errado durante a exclusão do usuario, tente novamente mais tarde",
+        });
+      });
+  };
+
   const validarEmail = (email) => {
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
@@ -102,16 +152,33 @@ export const FormEditUser = ({ userData }) => {
 
   return (
     <div className="card-container">
+      <div className="buttonDelete__container">
+
+      <Button
+        className="buttonActionFormDelete__size"
+        color="error"
+        onClick={handleDelete}
+      >
+        X
+      </Button>
+      </div>
       <form
-        style={{ margin: "1em" }}
+        style={{ margin: "1em", marginTop: "0px" }}
         className="base-container"
         onSubmit={handleSubmit(onSubmit)}
       >
         <CreateEditUsers data={userData} />
-        <Button variant="contained" type="submit">
-          Editar
-        </Button>
+        <div className="submitButton__container">
+          <Button
+            className="buttonActionFormEdit__size"
+            variant="contained"
+            type="submit"
+          >
+            Editar
+          </Button>
+        </div>
       </form>
     </div>
   );
 };
+
