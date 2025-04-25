@@ -18,3 +18,6 @@
 - Entrega 04 - CRUD Fullstack: branch `entrega-04-CRUD`
 
 - Trabalho 1 - branch: `trabalho-1`
+
+# Video com Apresentação
+- https://youtu.be/UuQwS3GRcVM
